@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from typing import List
 from db.session import get_db
@@ -76,6 +77,17 @@ async def get_courses(
     db: Session = Depends(get_db)
 ):
     return get_all_courses(db, skip=skip, limit=limit)
+
+# Get course image by name
+@router.get("/images/{image_name}")
+async def get_image(image_name: str):
+    file_path = f"uploads/{image_name}"
+    return FileResponse(
+        file_path,
+        media_type="image/jpeg", 
+        filename=image_name
+    )
+
 
 # Update course by ID
 @router.put("/{course_id}", response_model=CourseResponse)

@@ -18,6 +18,7 @@ class CourseUpdate(BaseModel):
 class CourseResponse(CourseBase):
     id: int
     no_of_registered_students: int
+    course_pic: Optional[str] = None
 
     class Config:
         from_attributes = True
